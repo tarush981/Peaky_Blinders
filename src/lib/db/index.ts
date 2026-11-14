@@ -11,6 +11,18 @@ interface DatabaseSchema {
   reviews: Review[];
   discounts: DiscountCode[];
   newsletter: { email: string; subscribedAt: string }[];
+  settings?: GatewaySettings;
+}
+
+export interface GatewaySettings {
+  merchantUpiVpa: string;
+  merchantName: string;
+  bankAccountHolder: string;
+  bankAccountNumber?: string;
+  bankIfsc?: string;
+  razorpayKeyId?: string;
+  razorpayKeySecret?: string;
+  isLiveMode: boolean;
 }
 
 function getInitialData(): DatabaseSchema {
@@ -273,7 +285,31 @@ export async function subscribeNewsletter(email: string): Promise<{ success: boo
   return { success: true, message: "Welcome to the Peaky Blinders Syndicate. Use code PEAKY10 for 10% off." };
 }
 
-// ---------------- ADMIN ANALYTICS ----------------
+// ---------------- SETTINGS & GATEWAY LINKING ----------------
+export async function getGatewaySettings(): Promise<GatewaySettings> {
+  const db = readDb();
+  return (
+    db.settings || {
+      merchantUpiVpa: process.env.NEXT_PUBLIC_MERCHANT_UPI_VPA || "shelby.garrison@okhdfcbank",
+      merchantName: process.env.NEXT_PUBLIC_MERCHANT_NAME || "PeakyBlinders Store",
+      bankAccountHolder: "PeakyBlinders Enterprise",
+      razorpayKeyId: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "",
+      razorpayKeySecret: process.env.RAZORPAY_KEY_SECRET || "",
+      isLiveMode: false,
+    }
+  );
+}
+
+export async function updateGatewaySettings(settings: Partial<GatewaySettings>): Promise<GatewaySettings> {
+  const db = readDb();
+  const current = await getGatewaySettings();
+  db.settings = {
+    ...current,
+    ...settings,
+  };
+  writeDb(db);
+  return db.settings;
+}
 export async function getAdminStats() {
   const db = readDb();
   const totalRevenue = db.orders

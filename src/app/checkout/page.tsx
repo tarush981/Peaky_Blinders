@@ -15,10 +15,12 @@ import {
   Lock,
   ArrowLeft,
   CheckCircle,
-  Tag,
   CreditCard,
   Banknote,
   Gift,
+  Smartphone,
+  AlertCircle,
+  QrCode,
 } from "lucide-react";
 
 declare global {
@@ -79,25 +81,29 @@ export default function CheckoutPage() {
     notes: "",
   });
 
-  const [paymentMethod, setPaymentMethod] = useState<"razorpay" | "cod">("razorpay");
+  // Payment method: strictly "upi" or "cod" (if eligible)
+  const [paymentMethod, setPaymentMethod] = useState<"upi" | "cod">("upi");
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Test Payment Modal State
-  const [testModalOpen, setTestModalOpen] = useState(false);
+  // COD Eligibility: Strictly >= 5000 INR
+  const isCodEligible = totalAmount >= 5000;
+
+  // Real UPI Payment Modal State
+  const [upiModalOpen, setUpiModalOpen] = useState(false);
   const [currentOrderData, setCurrentOrderData] = useState<{
     orderNumber: string;
-    razorpayOrderId: string;
+    razorpayOrderId?: string;
     totalAmount: number;
     orderDetails: any;
   } | null>(null);
 
-  // Redirect if cart is empty
+  // Ensure COD is disabled if order falls below threshold
   useEffect(() => {
-    if (items.length === 0) {
-      // Allow slight grace on initial mount
+    if (!isCodEligible && paymentMethod === "cod") {
+      setPaymentMethod("upi");
     }
-  }, [items]);
+  }, [isCodEligible, paymentMethod]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -114,7 +120,14 @@ export default function CheckoutPage() {
       return;
     }
 
-    if (!formData.fullName || !formData.email || !formData.phone || !formData.addressLine1 || !formData.city || !formData.postalCode) {
+    if (
+      !formData.fullName ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.addressLine1 ||
+      !formData.city ||
+      !formData.postalCode
+    ) {
       setErrorMessage("Please complete all required shipping fields.");
       return;
     }
@@ -123,6 +136,10 @@ export default function CheckoutPage() {
 
     try {
       if (paymentMethod === "cod") {
+        if (!isCodEligible) {
+          throw new Error("Cash on Delivery is available exclusively for orders of ₹5,000 or above.");
+        }
+
         // Handle Cash On Delivery direct order creation
         const res = await fetch("/api/orders", {
           method: "POST",
@@ -148,7 +165,7 @@ export default function CheckoutPage() {
         return;
       }
 
-      // Handle Razorpay Payment flow
+      // Handle Online UPI Payment flow
       const orderRes = await fetch("/api/razorpay/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -159,7 +176,7 @@ export default function CheckoutPage() {
       });
 
       const orderData = await orderRes.json();
-      if (!orderRes.ok) throw new Error(orderData.error || "Failed to initialize payment");
+      if (!orderRes.ok) throw new Error(orderData.error || "Failed to initialize UPI order");
 
       const orderDetails = {
         orderNumber: orderData.orderNumber,
@@ -170,29 +187,45 @@ export default function CheckoutPage() {
         discountCode,
         shippingCharges,
         totalAmount,
-        paymentMethod: "razorpay",
+        paymentMethod: "upi",
         notes: formData.notes,
       };
 
-      // Check if official window.Razorpay script loaded and credentials exist
-      const hasRealKey =
+      // Check if official live Razorpay key is configured
+      const hasLiveRazorpay =
         orderData.keyId &&
-        orderData.keyId !== "rzp_test_placeholder" &&
+        orderData.keyId.startsWith("rzp_") &&
+        !orderData.keyId.includes("placeholder") &&
         typeof window !== "undefined" &&
         window.Razorpay;
 
-      if (hasRealKey) {
+      if (hasLiveRazorpay) {
+        // Open live Razorpay checkout restricted to UPI ONLY
         const options = {
           key: orderData.keyId,
           amount: orderData.order.amount,
-          currency: orderData.order.currency,
+          currency: "INR",
           name: siteConfig.name,
-          description: "Tommy Shelby Smoking Boss Diffuser",
+          description: "MistyBlinders Smoking Boss Statue (UPI Payment)",
           order_id: orderData.order.orderId,
           prefill: {
             name: formData.fullName,
             email: formData.email,
             contact: formData.phone,
+          },
+          config: {
+            display: {
+              blocks: {
+                upi: {
+                  name: "Pay using UPI (Google Pay, PhonePe, Paytm, QR)",
+                  instruments: [{ method: "upi" }],
+                },
+              },
+              sequence: ["block.upi"],
+              preferences: {
+                show_default_blocks: false,
+              },
+            },
           },
           theme: {
             color: "#d4af37",
@@ -214,19 +247,19 @@ export default function CheckoutPage() {
 
         const rzp = new window.Razorpay(options);
         rzp.on("payment.failed", function (response: any) {
-          setErrorMessage(response.error.description || "Payment was unsuccessful. Please retry.");
+          setErrorMessage(response.error.description || "UPI payment was unsuccessful. Please retry.");
           setSubmitting(false);
         });
         rzp.open();
       } else {
-        // Open the built-in Razorpay Test Sandbox modal
+        // Open Direct Real UPI Payment Page (NPCI UPI Intent & Dynamic QR)
         setCurrentOrderData({
           orderNumber: orderData.orderNumber,
           razorpayOrderId: orderData.order.orderId,
           totalAmount,
           orderDetails,
         });
-        setTestModalOpen(true);
+        setUpiModalOpen(true);
         setSubmitting(false);
       }
     } catch (err: any) {
@@ -241,7 +274,7 @@ export default function CheckoutPage() {
     signature,
     orderDetails,
   }: {
-    orderId: string;
+    orderId?: string;
     paymentId: string;
     signature: string;
     orderDetails: any;
@@ -251,7 +284,7 @@ export default function CheckoutPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          razorpay_order_id: orderId,
+          razorpay_order_id: orderId || `upi_ord_${Date.now()}`,
           razorpay_payment_id: paymentId,
           razorpay_signature: signature,
           orderDetails,
@@ -274,7 +307,6 @@ export default function CheckoutPage() {
 
       <div className="min-h-screen bg-vintage-950 text-zinc-100 py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Back link */}
           <Link
             href="/"
             className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-400 hover:text-gold-400 mb-6 transition-colors"
@@ -288,13 +320,14 @@ export default function CheckoutPage() {
               Garrison Express Checkout
             </h1>
             <p className="text-xs sm:text-sm text-zinc-400 mt-1">
-              Complete your consignment delivery details. Fast dispatch across all 28 states & UTs in India.
+              Real-time consignment dispatch across India. Instant UPI payment and priority air shipping.
             </p>
           </div>
 
           {errorMessage && (
-            <div className="mb-6 p-4 rounded-xl bg-red-950/50 border border-red-500/40 text-red-300 text-xs sm:text-sm">
-              {errorMessage}
+            <div className="mb-6 p-4 rounded-xl bg-red-950/50 border border-red-500/40 text-red-300 text-xs sm:text-sm flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0" />
+              <span>{errorMessage}</span>
             </div>
           )}
 
@@ -360,7 +393,7 @@ export default function CheckoutPage() {
 
                   <div>
                     <label className="block text-xs font-semibold text-zinc-300 mb-1">
-                      Phone Number (for Courier Delivery SMS/Call) *
+                      Phone Number (for Delivery SMS & Call) *
                     </label>
                     <div className="flex">
                       <span className="inline-flex items-center px-3.5 bg-vintage-850 border border-r-0 border-zinc-700 rounded-l-xl text-xs text-zinc-400 font-mono">
@@ -483,21 +516,26 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
-                {/* 3. Payment Method Selection */}
+                {/* 3. Payment Method: UPI ONLY (or COD if >= 5000) */}
                 <div className="bg-vintage-900 border border-zinc-800 rounded-2xl p-6 space-y-4">
-                  <h3 className="font-serif text-base font-bold text-zinc-100 flex items-center gap-2">
-                    <span className="w-6 h-6 rounded-full bg-gold-500/20 text-gold-400 text-xs flex items-center justify-center font-mono">
-                      3
+                  <h3 className="font-serif text-base font-bold text-zinc-100 flex items-center justify-between">
+                    <span className="flex items-center gap-2">
+                      <span className="w-6 h-6 rounded-full bg-gold-500/20 text-gold-400 text-xs flex items-center justify-center font-mono">
+                        3
+                      </span>
+                      <span>Payment Method</span>
                     </span>
-                    <span>Select Payment Option</span>
+                    <span className="text-xs text-gold-400 font-mono">
+                      100% SECURE UPI
+                    </span>
                   </h3>
 
                   <div className="space-y-3">
-                    {/* Razorpay Online */}
+                    {/* Option 1: Instant UPI (Selected & Preferred) */}
                     <label
-                      onClick={() => setPaymentMethod("razorpay")}
+                      onClick={() => setPaymentMethod("upi")}
                       className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
-                        paymentMethod === "razorpay"
+                        paymentMethod === "upi"
                           ? "border-gold-500 bg-gold-500/10 shadow-gold-sm"
                           : "border-zinc-800 bg-vintage-950"
                       }`}
@@ -505,57 +543,88 @@ export default function CheckoutPage() {
                       <input
                         type="radio"
                         name="paymentMethod"
-                        checked={paymentMethod === "razorpay"}
-                        onChange={() => setPaymentMethod("razorpay")}
+                        checked={paymentMethod === "upi"}
+                        onChange={() => setPaymentMethod("upi")}
                         className="mt-1 text-gold-500 focus:ring-gold-500"
                       />
                       <div className="flex-1">
                         <div className="flex items-center justify-between">
                           <span className="font-bold text-sm text-zinc-100 flex items-center gap-2">
-                            <CreditCard className="w-4 h-4 text-gold-400" />
-                            <span>Razorpay Instant Online Payment</span>
+                            <Smartphone className="w-4 h-4 text-emerald-400" />
+                            <span>Instant UPI Payment (Google Pay / PhonePe / Paytm / QR)</span>
                           </span>
                           <span className="text-[10px] bg-emerald-500/20 text-emerald-400 font-bold px-2 py-0.5 rounded border border-emerald-500/30">
                             FASTEST DISPATCH
                           </span>
                         </div>
                         <p className="text-xs text-zinc-400 mt-1">
-                          Google Pay, PhonePe, Paytm, BHIM UPI, Credit/Debit Cards, Netbanking (50+ banks).
+                          Direct real-time payment from your bank account via Google Pay, PhonePe, Paytm, BHIM, or Scan & Pay QR.
                         </p>
+                        <div className="flex items-center gap-2 mt-2 font-mono text-[11px] text-zinc-300">
+                          <span className="px-2 py-0.5 rounded bg-black/40 border border-zinc-700">Google Pay</span>
+                          <span className="px-2 py-0.5 rounded bg-black/40 border border-zinc-700">PhonePe</span>
+                          <span className="px-2 py-0.5 rounded bg-black/40 border border-zinc-700">Paytm</span>
+                          <span className="px-2 py-0.5 rounded bg-black/40 border border-zinc-700">Scan QR</span>
+                        </div>
                       </div>
                     </label>
 
-                    {/* Cash on Delivery */}
-                    <label
-                      onClick={() => setPaymentMethod("cod")}
-                      className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
-                        paymentMethod === "cod"
-                          ? "border-gold-500 bg-gold-500/10 shadow-gold-sm"
-                          : "border-zinc-800 bg-vintage-950"
+                    {/* Option 2: Cash on Delivery (STRICTLY FOR ORDERS >= ₹5,000) */}
+                    <div
+                      className={`p-4 rounded-xl border transition-all ${
+                        isCodEligible
+                          ? paymentMethod === "cod"
+                            ? "border-gold-500 bg-gold-500/10 shadow-gold-sm cursor-pointer"
+                            : "border-zinc-800 bg-vintage-950 cursor-pointer"
+                          : "border-zinc-850 bg-vintage-950/40 opacity-60 cursor-not-allowed"
                       }`}
+                      onClick={() => {
+                        if (isCodEligible) setPaymentMethod("cod");
+                      }}
                     >
-                      <input
-                        type="radio"
-                        name="paymentMethod"
-                        checked={paymentMethod === "cod"}
-                        onChange={() => setPaymentMethod("cod")}
-                        className="mt-1 text-gold-500 focus:ring-gold-500"
-                      />
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <span className="font-bold text-sm text-zinc-100 flex items-center gap-2">
-                            <Banknote className="w-4 h-4 text-zinc-400" />
-                            <span>Cash on Delivery (COD)</span>
-                          </span>
-                          <span className="text-[10px] text-zinc-400">
-                            Available across India
-                          </span>
+                      <div className="flex items-start gap-3">
+                        <input
+                          type="radio"
+                          name="paymentMethod"
+                          disabled={!isCodEligible}
+                          checked={paymentMethod === "cod"}
+                          onChange={() => {
+                            if (isCodEligible) setPaymentMethod("cod");
+                          }}
+                          className="mt-1 text-gold-500 focus:ring-gold-500"
+                        />
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <span className="font-bold text-sm text-zinc-100 flex items-center gap-2">
+                              <Banknote className="w-4 h-4 text-zinc-400" />
+                              <span>Cash on Delivery (COD)</span>
+                            </span>
+                            <span
+                              className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
+                                isCodEligible
+                                  ? "bg-gold-500/20 text-gold-400 border-gold-500/30"
+                                  : "bg-zinc-800 text-zinc-500 border-zinc-700"
+                              }`}
+                            >
+                              {isCodEligible ? "UNLOCKED" : "ORDERS ₹5,000+ ONLY"}
+                            </span>
+                          </div>
+
+                          {isCodEligible ? (
+                            <p className="text-xs text-zinc-400 mt-1">
+                              Pay cash or UPI directly to courier executive upon delivery inspection.
+                            </p>
+                          ) : (
+                            <p className="text-xs text-amber-400/90 mt-1 flex items-center gap-1.5">
+                              <Lock className="w-3.5 h-3.5 shrink-0" />
+                              <span>
+                                Cash on Delivery is available exclusively for orders of ₹5,000 or above (e.g. 3-Pack Syndicate Trio). Current order: <strong>{formatINR(totalAmount)}</strong>. Please pay via UPI.
+                              </span>
+                            </p>
+                          )}
                         </div>
-                        <p className="text-xs text-zinc-400 mt-1">
-                          Pay cash or UPI directly to the courier executive upon doorstep inspection.
-                        </p>
                       </div>
-                    </label>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -618,10 +687,8 @@ export default function CheckoutPage() {
                     )}
 
                     <div className="flex justify-between">
-                      <span>All India Express Courier</span>
-                      <span className="text-gold-400 font-bold">
-                        {shippingCharges === 0 ? "FREE" : formatINR(shippingCharges)}
-                      </span>
+                      <span>All India Express Air Courier</span>
+                      <span className="text-gold-400 font-bold">FREE</span>
                     </div>
 
                     <div className="flex justify-between text-base font-extrabold text-zinc-100 pt-3 border-t border-zinc-800">
@@ -641,22 +708,22 @@ export default function CheckoutPage() {
                     <Lock className="w-4 h-4" />
                     <span>
                       {submitting
-                        ? "Connecting Gateway..."
+                        ? "Opening UPI Gateway..."
                         : paymentMethod === "cod"
                         ? "Confirm Cash On Delivery Order"
-                        : `Pay ${formatINR(totalAmount)} with Razorpay`}
+                        : `Pay ${formatINR(totalAmount)} via UPI`}
                     </span>
                   </button>
 
                   {/* Trust guarantees */}
                   <div className="space-y-2 pt-2 border-t border-zinc-850 text-[11px] text-zinc-400">
                     <div className="flex items-center gap-2">
-                      <ShieldCheck className="w-4 h-4 text-gold-400 shrink-0" />
-                      <span>256-Bit Bank Grade SSL Encrypted Checkout</span>
+                      <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                      <span>Direct Real UPI Payment (Google Pay / PhonePe / Paytm / BHIM)</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Truck className="w-4 h-4 text-gold-400 shrink-0" />
-                      <span>BlueDart / Delhivery Air Priority 3-5 Days Delivery</span>
+                      <span>BlueDart / Delhivery Priority Air Express (3–5 Days)</span>
                     </div>
                   </div>
                 </div>
@@ -666,17 +733,18 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      {/* Razorpay Test Payment Sandbox Modal */}
+      {/* Real UPI Payment Gateway Modal */}
       {currentOrderData && (
         <PaymentModal
-          isOpen={testModalOpen}
-          onClose={() => setTestModalOpen(false)}
+          isOpen={upiModalOpen}
+          onClose={() => setUpiModalOpen(false)}
           orderNumber={currentOrderData.orderNumber}
           razorpayOrderId={currentOrderData.razorpayOrderId}
           totalAmount={currentOrderData.totalAmount}
           customerName={formData.fullName}
+          customerPhone={formData.phone}
           onSuccess={async ({ paymentId, signature }) => {
-            setTestModalOpen(false);
+            setUpiModalOpen(false);
             await verifyAndCompleteOrder({
               orderId: currentOrderData.razorpayOrderId,
               paymentId,
@@ -685,7 +753,7 @@ export default function CheckoutPage() {
             });
           }}
           onFailure={(error) => {
-            setTestModalOpen(false);
+            setUpiModalOpen(false);
             setErrorMessage(error);
           }}
         />

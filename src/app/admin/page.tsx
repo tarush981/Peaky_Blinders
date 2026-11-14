@@ -25,6 +25,8 @@ import {
   RefreshCw,
   Clock,
   ArrowRight,
+  Smartphone,
+  ExternalLink,
 } from "lucide-react";
 
 export default function AdminDashboardPage() {
@@ -33,7 +35,7 @@ export default function AdminDashboardPage() {
   const [authError, setAuthError] = useState("");
 
   const [activeTab, setActiveTab] = useState<
-    "analytics" | "orders" | "products" | "reviews" | "discounts"
+    "analytics" | "orders" | "products" | "reviews" | "gateway"
   >("analytics");
 
   // Data states
@@ -52,6 +54,19 @@ export default function AdminDashboardPage() {
   // Product editing form state
   const [editingProduct, setEditingProduct] = useState<Partial<Product> | null>(null);
   const [productSavedAlert, setProductSavedAlert] = useState(false);
+
+  // Gateway & Bank Linking State
+  const [gatewaySettings, setGatewaySettings] = useState({
+    merchantUpiVpa: "shelby.garrison@okhdfcbank",
+    merchantName: "PeakyBlinders Store",
+    bankAccountHolder: "PeakyBlinders Enterprise",
+    bankAccountNumber: "",
+    bankIfsc: "",
+    razorpayKeyId: "",
+    razorpayKeySecret: "",
+    isLiveMode: false,
+  });
+  const [gatewaySavedAlert, setGatewaySavedAlert] = useState(false);
 
   // Check auth from session storage on mount
   useEffect(() => {
@@ -86,15 +101,17 @@ export default function AdminDashboardPage() {
   const fetchDashboardData = async () => {
     setLoading(true);
     try {
-      const [ordersRes, productsRes, reviewsRes] = await Promise.all([
+      const [ordersRes, productsRes, reviewsRes, settingsRes] = await Promise.all([
         fetch("/api/orders"),
         fetch("/api/products"),
         fetch("/api/reviews?all=true"),
+        fetch("/api/settings"),
       ]);
 
       const ordersData = await ordersRes.json();
       const productsData = await productsRes.json();
       const reviewsData = await reviewsRes.json();
+      const settingsData = await settingsRes.json();
 
       if (ordersData.orders) setOrders(ordersData.orders);
       if (productsData.products) {
@@ -102,6 +119,7 @@ export default function AdminDashboardPage() {
         setEditingProduct(productsData.products[0]);
       }
       if (reviewsData.reviews) setReviews(reviewsData.reviews);
+      if (settingsData.settings) setGatewaySettings(settingsData.settings);
 
       // Calculate stats
       const totalRev = (ordersData.orders || [])
@@ -186,6 +204,25 @@ export default function AdminDashboardPage() {
       }
     } catch (err) {
       console.error("Product save error", err);
+    }
+  };
+
+  // Gateway & Bank Linking update handler
+  const handleSaveGateway = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("/api/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(gatewaySettings),
+      });
+      if (res.ok) {
+        setGatewaySavedAlert(true);
+        setTimeout(() => setGatewaySavedAlert(false), 3000);
+        fetchDashboardData();
+      }
+    } catch (err) {
+      console.error("Gateway save error", err);
     }
   };
 
@@ -348,6 +385,18 @@ export default function AdminDashboardPage() {
             <Star className="w-4 h-4" />
             <span>Review Moderation ({reviews.length})</span>
           </button>
+
+          <button
+            onClick={() => setActiveTab("gateway")}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
+              activeTab === "gateway"
+                ? "bg-gold-500 text-vintage-950 shadow-gold-sm"
+                : "text-zinc-400 hover:text-gold-400 bg-vintage-900 border border-zinc-800"
+            }`}
+          >
+            <DollarSign className="w-4 h-4" />
+            <span>Bank & Payment Gateway</span>
+          </button>
         </div>
 
         {/* TAB 1: ANALYTICS & STATS */}
@@ -362,7 +411,7 @@ export default function AdminDashboardPage() {
                   {formatINR(stats.totalRevenue)}
                 </div>
                 <div className="text-[11px] text-emerald-400 flex items-center gap-1">
-                  <span>● 100% Verified Razorpay Transactions</span>
+                  <span>● 100% Real Money UPI Transactions</span>
                 </div>
               </div>
 
@@ -803,6 +852,167 @@ export default function AdminDashboardPage() {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* TAB 5: GATEWAY & BANK ACCOUNT LINKING */}
+        {activeTab === "gateway" && (
+          <div className="bg-vintage-900 border border-zinc-800 rounded-2xl p-6 sm:p-8 space-y-6">
+            <div className="flex items-center justify-between border-b border-zinc-800 pb-4">
+              <div>
+                <h3 className="font-serif text-lg font-bold text-zinc-100 flex items-center gap-2">
+                  <ShieldCheck className="w-5 h-5 text-emerald-400" />
+                  <span>Real Money Bank & UPI Gateway Linking</span>
+                </h3>
+                <p className="text-xs text-zinc-400 mt-1">
+                  Configure where real payments from customers are deposited into your bank account.
+                </p>
+              </div>
+
+              {gatewaySavedAlert && (
+                <div className="px-3.5 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold flex items-center gap-1.5 animate-pulse">
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Bank & Gateway Saved!</span>
+                </div>
+              )}
+            </div>
+
+            <form onSubmit={handleSaveGateway} className="space-y-6">
+              {/* SECTION 1: Direct UPI Bank Transfer */}
+              <div className="p-5 rounded-xl bg-vintage-950 border border-gold-500/30 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h4 className="font-serif text-sm font-bold text-gold-400 uppercase tracking-wider flex items-center gap-2">
+                    <span className="w-5 h-5 rounded-full bg-gold-500/20 text-gold-400 text-xs flex items-center justify-center font-mono">
+                      1
+                    </span>
+                    <span>Direct UPI Bank Account Transfer (0% Fee, Instant Settlement)</span>
+                  </h4>
+                  <span className="text-[10px] bg-emerald-500/20 text-emerald-400 font-bold px-2 py-0.5 rounded border border-emerald-500/30">
+                    RECOMMENDED & INSTANT
+                  </span>
+                </div>
+                <p className="text-xs text-zinc-400 leading-relaxed">
+                  When customers scan the dynamic UPI QR or click Google Pay / PhonePe / Paytm on checkout, real money transfers directly into the bank account linked to this UPI ID with zero gateway delays and 0% commission.
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-zinc-300 mb-1">
+                      Your Personal or Business UPI ID (VPA) *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={gatewaySettings.merchantUpiVpa}
+                      onChange={(e) =>
+                        setGatewaySettings({
+                          ...gatewaySettings,
+                          merchantUpiVpa: e.target.value,
+                        })
+                      }
+                      placeholder="e.g. yourname@okaxis, yourphone@paytm, or yourvpa@upi"
+                      className="w-full px-3.5 py-2.5 bg-vintage-900 border border-zinc-700 rounded-xl text-xs text-zinc-100 font-mono focus:outline-none focus:border-gold-500"
+                    />
+                    <span className="text-[10px] text-zinc-500 mt-1 block">
+                      Money transfers directly into the bank account linked to this UPI ID.
+                    </span>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-zinc-300 mb-1">
+                      Account Holder / Business Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={gatewaySettings.merchantName}
+                      onChange={(e) =>
+                        setGatewaySettings({
+                          ...gatewaySettings,
+                          merchantName: e.target.value,
+                        })
+                      }
+                      placeholder="e.g. Tarush Shivhare or PeakyBlinders Store"
+                      className="w-full px-3.5 py-2.5 bg-vintage-900 border border-zinc-700 rounded-xl text-xs text-zinc-100 focus:outline-none focus:border-gold-500"
+                    />
+                    <span className="text-[10px] text-zinc-500 mt-1 block">
+                      Displayed on customer's Google Pay / PhonePe screen.
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* SECTION 2: Razorpay Live Gateway (Optional Automated Aggregator) */}
+              <div className="p-5 rounded-xl bg-vintage-950 border border-zinc-800 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h4 className="font-serif text-sm font-bold text-zinc-200 uppercase tracking-wider flex items-center gap-2">
+                    <span className="w-5 h-5 rounded-full bg-zinc-800 text-zinc-400 text-xs flex items-center justify-center font-mono">
+                      2
+                    </span>
+                    <span>Razorpay Live Gateway Credentials (Automated Bank Payouts)</span>
+                  </h4>
+                  <span className="text-[10px] text-zinc-500 font-mono">
+                    RBI Regulated Payment Aggregator
+                  </span>
+                </div>
+                <p className="text-xs text-zinc-400 leading-relaxed">
+                  Enter your production Razorpay keys from <a href="https://dashboard.razorpay.com/app/keys" target="_blank" rel="noopener noreferrer" className="text-gold-400 underline inline-flex items-center gap-1">dashboard.razorpay.com/app/keys <ExternalLink className="w-3 h-3" /></a> once your merchant KYC is completed. Razorpay auto-settles all UPI orders directly into your linked bank account in T+1 days.
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-zinc-300 mb-1">
+                      Razorpay Key ID (Live / Test)
+                    </label>
+                    <input
+                      type="text"
+                      value={gatewaySettings.razorpayKeyId || ""}
+                      onChange={(e) =>
+                        setGatewaySettings({
+                          ...gatewaySettings,
+                          razorpayKeyId: e.target.value,
+                        })
+                      }
+                      placeholder="rzp_live_... or rzp_test_..."
+                      className="w-full px-3.5 py-2.5 bg-vintage-900 border border-zinc-700 rounded-xl text-xs text-zinc-100 font-mono focus:outline-none focus:border-gold-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-zinc-300 mb-1">
+                      Razorpay Key Secret
+                    </label>
+                    <input
+                      type="password"
+                      value={gatewaySettings.razorpayKeySecret || ""}
+                      onChange={(e) =>
+                        setGatewaySettings({
+                          ...gatewaySettings,
+                          razorpayKeySecret: e.target.value,
+                        })
+                      }
+                      placeholder="••••••••••••••••"
+                      className="w-full px-3.5 py-2.5 bg-vintage-900 border border-zinc-700 rounded-xl text-xs text-zinc-100 font-mono focus:outline-none focus:border-gold-500"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Save Button */}
+              <div className="pt-2 flex items-center justify-between">
+                <button
+                  type="submit"
+                  className="px-6 py-3 rounded-xl bg-gold-500 hover:bg-gold-400 text-vintage-950 font-bold text-xs sm:text-sm shadow-gold-sm flex items-center gap-2"
+                >
+                  <Save className="w-4 h-4" />
+                  <span>Save Bank & Payment Configuration</span>
+                </button>
+
+                <span className="text-xs text-zinc-500">
+                  Settings update live immediately across the site.
+                </span>
+              </div>
+            </form>
           </div>
         )}
       </div>

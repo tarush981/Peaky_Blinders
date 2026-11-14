@@ -3,48 +3,49 @@
     {
       "id": "pb-shelby-diffuser-01",
       "slug": "tommy-shelby-smoking-boss-diffuser",
-      "title": "The Tommy Shelby 'Smoking Boss' Ultrasonic Mist Diffuser & Collectible Figurine",
-      "subtitle": "Handcrafted Cold-Cast Polyresin Collectible with Dual Amber Flame LED & Ultrasonic Smoking Cigarette Effect",
-      "badge": "LIMITED EDITION VINTAGE DROP",
-      "description": "Channel the uncompromising poise and authority of the Birmingham Garrison. The Tommy Shelby Smoking Boss Diffuser is an exquisite marriage of dark artisan sculpture and modern ultrasonic aromatherapy.\n\nEvery statue is meticulously cold-cast in high-density resin, finished by hand with antique bronze accents and an authentic peak hat silhouette. When activated, silent ultrasonic technology transforms water and essential oils into fine cool mist that drifts realistically from Tommy's glowing cigarette tip, while a subtle hearth-fire amber light illuminates his trench coat and resolute gaze.",
+      "title": "MistyBlinders™ Tommy Shelby 'Smoking Boss' Statue & Mist Diffuser",
+      "subtitle": "Hand-Painted 1920s Boss in Tufted Chesterfield Armchair with Real Misting Cigarette, Glowing Brass Base & Wireless Remote",
+      "badge": "BLACK FRIDAY DROP • LOW STOCK",
+      "description": "Meet the 28 cm hand-painted boss of Small Heath: tweed three-piece, flat cap, pocket watch chain and a stare that could clear a pub. He sits in a tufted leather-look Chesterfield armchair on a brushed-brass base.\n\nPress the included wireless remote and real cool ultrasonic mist curls off the cigarette while a warm LED ring illuminates the base from below. USB-C powered, fill with a few drops of water, runs for about 40 minutes per fill. Completely safe, whisper quiet, no heat, no smoke smell. Comes packed in a luxury black gift box.",
       "features": [
-        "Realistic Cigarette Mist: Ultrasonic cool-mist mimics authentic rising smoke",
-        "Dual Ambience Glow: Warm amber hearth LED illuminates the sculpted details",
-        "Whisper Quiet Ultrasonic Engine: Operates at < 25dB, ideal for executive desks & bedrooms",
-        "Aromatherapy Ready: Compatible with water-soluble essential oils (Tobacco & Oak, Sandalwood, Lavender)",
-        "Intelligent Auto-Shutoff: Shuts down automatically when water level depletes",
-        "Substantial Weight & Texture: 780 grams of solid cold-cast resin, not hollow plastic",
-        "USB Type-C Powered: Universal connectivity for desks, bedside tables, or cars"
+        "Real Misting Cigarette: Silent ultrasonic cool vapor curls off the glowing cigarette tip",
+        "Wireless Remote Control Included: Independent buttons for mist, warm base LED ring, and 30-min auto timer",
+        "Tufted Chesterfield Armchair: Intricately detailed leather texture, brass buttons, and tailored trench coat",
+        "Brushed Brass Base with Ambient Light: Warm 2200K under-glow creates an intoxicating bar-cart atmosphere",
+        "Aromatherapy Ready: Add 2-3 drops of essential oils (Tobacco & Oak, Cedarwood, Sandalwood) to the water",
+        "Solid 900g Substantial Weight: Premium cold-cast polyresin, substantial luxury desk feel",
+        "USB-C Powered: Universal power from any phone charger, laptop, or power bank"
       ],
       "specs": {
-        "Material": "Cold-Cast Artisan Polyresin & BPA-Free ABS Tank",
-        "Dimensions": "21.5 cm (H) x 11.2 cm (W) x 10.5 cm (D)",
-        "Product Weight": "780 grams (Solid Luxury Feel)",
-        "Tank Capacity": "180 ml (Continuous 6-8 hrs operation)",
-        "Mist Output": "35–45 ml/hour",
-        "Ultrasonic Frequency": "2.4 MHz Whisper Technology",
-        "Lighting Modes": "Warm Amber Glow / Breathing Ember / Stealth Mist (Off)",
-        "Power Input": "DC 5V / 2A (Braided Type-C Cable Included)",
-        "Coverage Area": "Up to 25 square meters",
-        "Safety Standard": "Dry-burn automatic power cutoff"
+        "Height & Scale": "28 cm (11 in) tall including brushed brass pedestal",
+        "Product Weight": "Roughly 900 grams (Solid, heavy collector feel)",
+        "Mist Output": "Ultrasonic cool-mist transducer (Zero fire, zero smoke odor)",
+        "Power Supply": "Universal USB-C (Braided cable included)",
+        "Remote Control": "Wireless remote with coin battery included",
+        "Lighting": "Warm golden ambient LED ring around the pedestal",
+        "Runtime per fill": "35-45 minutes continuous diffusion (Auto dry-burn cutoff)",
+        "Coverage": "Executive desk, bedside table, sideboard, or bar cart",
+        "Packaging": "Matte black collector's gift box with foam casing"
       },
       "originalPrice": 4999,
       "sellingPrice": 2499,
       "discountPercentage": 50,
-      "stock": 12,
-      "rating": 4.8,
-      "reviewCount": 6,
+      "stock": 8,
+      "rating": 5,
+      "reviewCount": 5,
       "images": [
-        "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1200&q=80",
-        "https://images.unsplash.com/photo-1513094735237-8f2714d57c13?auto=format&fit=crop&w=1200&q=80",
-        "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=80",
-        "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1200&q=80"
+        "/assets/hero-front.jpg",
+        "/assets/hero-back.jpg",
+        "/img/figure-poster.jpg",
+        "/img/t1.jpg",
+        "/img/t2.jpg",
+        "/img/t3.jpg"
       ],
       "bundles": [
         {
           "id": "bundle-1",
-          "name": "The Birmingham Solitary",
-          "tagline": "1x Tommy Shelby Boss Diffuser",
+          "name": "Buy 1 · Solitary Boss",
+          "tagline": "1x MistyBlinders™ Smoking Boss Statue + Wireless Remote",
           "quantity": 1,
           "pricePerUnit": 2499,
           "totalPrice": 2499,
@@ -52,15 +53,15 @@
           "savings": 2500,
           "discountBadge": "50% OFF",
           "freeGifts": [
-            "Braided Type-C USB Cable",
-            "Brass Dropper Pipette",
-            "Certificate of Authenticity"
+            "Wireless Remote Controller",
+            "USB-C Braided Cable",
+            "Water Dropper Pipette"
           ]
         },
         {
           "id": "bundle-2",
-          "name": "The Shelby Syndicate Duo",
-          "tagline": "2x Tommy Shelby Boss Diffusers (1 For You, 1 For The Best Mate)",
+          "name": "Buy 2 · Duo Syndicate Pack",
+          "tagline": "One for the executive office, one for the home bar cart",
           "quantity": 2,
           "pricePerUnit": 2249,
           "totalPrice": 4499,
@@ -69,15 +70,15 @@
           "discountBadge": "MOST POPULAR • 55% OFF",
           "isPopular": true,
           "freeGifts": [
-            "1x FREE 10ml 'Birmingham Tobacco & Oak' Aroma Oil (₹499 Value)",
-            "2x Braided Type-C USB Cables",
-            "Free Express Air Priority Delivery"
+            "2x Wireless Remote Controllers",
+            "1x FREE 10ml 'Birmingham Tobacco & Oak' Aroma Oil",
+            "Free Priority Air Express Delivery"
           ]
         },
         {
           "id": "bundle-3",
-          "name": "The Garrison Executive Trio",
-          "tagline": "3x Tommy Shelby Boss Diffusers (Maximum Savings)",
+          "name": "Buy 3 · Garrison Syndicate Trio",
+          "tagline": "By order of the whole family · Maximum savings",
           "quantity": 3,
           "pricePerUnit": 1999,
           "totalPrice": 5999,
@@ -86,29 +87,31 @@
           "discountBadge": "BEST VALUE • 60% OFF",
           "isBestValue": true,
           "freeGifts": [
-            "2x FREE 10ml Aroma Essences ('Tobacco & Oak' + 'Peaty Malt & Cedar')",
-            "Luxury Black Matte Gift Box with Gold Foil Stamp",
-            "Free Express Priority Air Shipping Across India",
-            "Lifetime Replacement Guarantee Card"
+            "3x Wireless Remote Controllers",
+            "2x FREE Artisan Aroma Essences",
+            "Luxury Black Matte Foil Gift Boxes",
+            "Free Priority Express Shipping Across India",
+            "Eligible for Cash on Delivery (COD)"
           ]
         }
       ],
       "includedItems": [
-        "1x Tommy Shelby Cold-Cast Sculpted Figurine Diffuser",
-        "1x Type-C Fast Charging USB Braided Cable (1.5m)",
-        "1x High-Precision Aromatherapy Dropper",
-        "1x Garrison Collector's Certificate of Authenticity",
-        "1x Multilingual User & Maintenance Manual"
+        "1x MistyBlinders™ Tommy Shelby Hand-Painted Smoking Statue (28cm)",
+        "1x RF Wireless Multi-Function Remote Control",
+        "1x 1.5m Braided Type-C USB Power Cable",
+        "1x Precision Water Dropper Pipette",
+        "1x Collector's Certificate & Maintenance Guide",
+        "1x Heavy-Duty Matte Black Protective Box"
       ],
-      "category": "Luxury Collectibles & Aromatherapy",
+      "category": "Luxury Collectibles & Mist Statues",
       "isFeatured": true
     }
   ],
   "orders": [
     {
-      "id": "pb_ord_qa_1794653620232",
-      "orderNumber": "PB-IND-AFFUW-G6KE",
-      "createdAt": "2026-11-14T10:53:40.234Z",
+      "id": "pb_ord_qa_1794670058787",
+      "orderNumber": "PB-IND-K7RXE-0OWM",
+      "createdAt": "2026-11-14T15:27:38.788Z",
       "customer": {
         "fullName": "Test QA Buyer",
         "email": "qa.buyer@test.in",
@@ -139,62 +142,20 @@
       "orderStatus": "confirmed",
       "paymentStatus": "paid",
       "paymentMethod": "razorpay",
-      "razorpayOrderId": "order_test_1794653620232_m7ps4",
+      "razorpayOrderId": "order_test_1794670058786_ui2nn",
       "razorpayPaymentId": "pay_test_suite_9999",
-      "trackingNumber": "PB-EXP-993080IN",
+      "trackingNumber": "PB-EXP-212232IN",
       "notes": ""
     },
     {
-      "id": "pb-order-demo-01",
-      "orderNumber": "PB-IND-BIRM-9821",
-      "createdAt": "2026-11-12T10:52:37.218Z",
+      "id": "pb_ord_qa_1794670035441",
+      "orderNumber": "PB-IND-K79WV-7V3D",
+      "createdAt": "2026-11-14T15:27:15.443Z",
       "customer": {
-        "fullName": "Kabir Shergill",
-        "email": "kabir.shergill@gmail.com",
-        "phone": "+91 98112 34567",
-        "addressLine1": "Flat 402, Garrison Heights, Bandra West",
-        "city": "Mumbai",
-        "state": "Maharashtra",
-        "postalCode": "400050",
-        "country": "India"
-      },
-      "items": [
-        {
-          "productId": "pb-shelby-diffuser-01",
-          "title": "The Tommy Shelby 'Smoking Boss' Ultrasonic Mist Diffuser & Collectible Figurine",
-          "image": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1200&q=80",
-          "unitPrice": 2249,
-          "quantity": 2,
-          "bundleId": "bundle-2",
-          "bundleName": "The Shelby Syndicate Duo",
-          "totalPrice": 4499,
-          "freeGifts": [
-            "1x FREE 10ml 'Birmingham Tobacco & Oak' Aroma Oil"
-          ]
-        }
-      ],
-      "subtotal": 4499,
-      "discountAmount": 200,
-      "discountCode": "SHELBY200",
-      "shippingCharges": 0,
-      "totalAmount": 4299,
-      "orderStatus": "shipped",
-      "paymentStatus": "paid",
-      "paymentMethod": "razorpay",
-      "razorpayOrderId": "order_demo_101",
-      "razorpayPaymentId": "pay_demo_9921",
-      "trackingNumber": "BD98273614IN",
-      "notes": "Leave with security if not home"
-    },
-    {
-      "id": "pb-order-demo-02",
-      "orderNumber": "PB-IND-BIRM-8412",
-      "createdAt": "2026-11-10T10:52:37.219Z",
-      "customer": {
-        "fullName": "Aditya Vardhan",
-        "email": "aditya.v@outlook.com",
-        "phone": "+91 97234 56789",
-        "addressLine1": "Villa 12, Palm Meadows, Whitefield",
+        "fullName": "Test QA Buyer",
+        "email": "qa.buyer@test.in",
+        "phone": "9876543210",
+        "addressLine1": "123 Test Street, Whitefield",
         "city": "Bengaluru",
         "state": "Karnataka",
         "postalCode": "560066",
@@ -203,34 +164,32 @@
       "items": [
         {
           "productId": "pb-shelby-diffuser-01",
-          "title": "The Tommy Shelby 'Smoking Boss' Ultrasonic Mist Diffuser & Collectible Figurine",
-          "image": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1200&q=80",
-          "unitPrice": 1999,
-          "quantity": 3,
-          "bundleId": "bundle-3",
-          "bundleName": "The Garrison Executive Trio",
-          "totalPrice": 5999,
-          "freeGifts": [
-            "2x FREE 10ml Aroma Essences",
-            "Luxury Gift Box"
-          ]
+          "title": "Tommy Shelby Smoking Boss Diffuser",
+          "image": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c",
+          "unitPrice": 2249,
+          "quantity": 2,
+          "bundleId": "bundle-2",
+          "bundleName": "The Shelby Syndicate Duo",
+          "totalPrice": 4499
         }
       ],
-      "subtotal": 5999,
-      "discountAmount": 0,
+      "subtotal": 4499,
+      "discountAmount": 450,
+      "discountCode": "PEAKY10",
       "shippingCharges": 0,
-      "totalAmount": 5999,
-      "orderStatus": "delivered",
+      "totalAmount": 4049,
+      "orderStatus": "confirmed",
       "paymentStatus": "paid",
       "paymentMethod": "razorpay",
-      "razorpayOrderId": "order_demo_102",
-      "razorpayPaymentId": "pay_demo_8812",
-      "trackingNumber": "DLH77192834IN"
+      "razorpayOrderId": "order_test_1794670035439_224ca",
+      "razorpayPaymentId": "pay_test_suite_9999",
+      "trackingNumber": "PB-EXP-349367IN",
+      "notes": ""
     }
   ],
   "reviews": [
     {
-      "id": "rev-1794653620270",
+      "id": "rev-1794670058803",
       "productId": "pb-shelby-diffuser-01",
       "author": "Dev QA Reviewer",
       "location": "Pune, MH",
@@ -243,68 +202,58 @@
       "status": "approved"
     },
     {
-      "id": "rev-1",
+      "id": "rev-1794670035476",
       "productId": "pb-shelby-diffuser-01",
-      "author": "Vikramaditya Rathore",
-      "location": "Jaipur, Rajasthan",
+      "author": "Dev QA Reviewer",
+      "location": "Pune, MH",
       "rating": 5,
-      "date": "2026-11-02",
-      "title": "Unbelievable craftsmanship. Smoking effect is hypnotic!",
-      "content": "I was skeptical about how the smoke effect would look in person, but it genuinely looks like Tommy is sitting there quietly taking a drag while planning his next move. The weight of the resin is substantial, and the amber glow on my mahogany study desk looks royal. Delivered to Jaipur in 3 days. Superb packaging.",
+      "date": "2026-11-14",
+      "title": "Spectacular Amber Glow",
+      "content": "Automated QA test review content. The sculpture weight is solid.",
       "verifiedPurchase": true,
-      "helpfulCount": 42,
+      "helpfulCount": 0,
       "status": "approved"
     },
     {
-      "id": "rev-2",
+      "id": "rev-orig-1",
       "productId": "pb-shelby-diffuser-01",
-      "author": "Arjun Singhania",
-      "location": "South Mumbai, Maharashtra",
+      "author": "Charlotte W.",
+      "avatar": "/img/r1.jpg",
+      "location": "Mumbai, Maharashtra",
       "rating": 5,
-      "date": "2026-10-28",
-      "title": "Ordered the Duo Syndicate Pack — Best gift ever.",
-      "content": "Gifted one to my business partner and kept one in my office cabin. Every single client who walks in asks about it within 30 seconds. The Tobacco & Oak scent that comes with the 2-pack smells like an expensive London members club. Auto shutoff works flawlessly.",
+      "date": "2026-11-10",
+      "title": "Unwrapped in silence, then chaos",
+      "content": "Sits on my desk and every single person who walks in stops dead when the smoke starts. The paintwork on the suit and the Chesterfield armchair is unreal for the price. The remote lets you trigger the mist without getting up from your chair.",
       "verifiedPurchase": true,
-      "helpfulCount": 29,
+      "helpfulCount": 58,
       "status": "approved"
     },
     {
-      "id": "rev-3",
+      "id": "rev-orig-2",
       "productId": "pb-shelby-diffuser-01",
-      "author": "Devendra Kulkarni",
+      "author": "Daniel K.",
+      "avatar": "/img/r2.jpg",
       "location": "Bengaluru, Karnataka",
       "rating": 5,
-      "date": "2026-10-21",
-      "title": "Worth every single rupee. Pure class.",
-      "content": "The mist output is generous yet doesn't leave wet residue on the desk surface because of the ultra-fine ultrasonic vapor. The cap, peak hat silhouette, and trench coat folds are sculpted with insane detail. By order of the Peaky Blinders, this is a masterpiece.",
+      "date": "2026-11-06",
+      "title": "Office legend — looks like a prop from the show",
+      "content": "Bought it for my husband's birthday. He has not stopped pressing the remote. Looks like an authentic movie prop from the show under the study lamp. The warm LED ring at the base gives it such a moody lounge vibe.",
       "verifiedPurchase": true,
-      "helpfulCount": 18,
+      "helpfulCount": 41,
       "status": "approved"
     },
     {
-      "id": "rev-4",
+      "id": "rev-orig-3",
       "productId": "pb-shelby-diffuser-01",
-      "author": "Kavya Menon",
-      "location": "Kochi, Kerala",
-      "rating": 5,
-      "date": "2026-10-15",
-      "title": "Hubby loved his birthday surprise!",
-      "content": "My husband is a massive Peaky Blinders fan and this made his month. It looks like an art museum piece when turned off, and when turned on, the mist rising from the cigarette combined with the amber light creates such an intoxicating vibe.",
-      "verifiedPurchase": true,
-      "helpfulCount": 14,
-      "status": "approved"
-    },
-    {
-      "id": "rev-5",
-      "productId": "pb-shelby-diffuser-01",
-      "author": "Rohit Malhotra",
+      "author": "Sophie R.",
+      "avatar": "/img/r3.jpg",
       "location": "New Delhi, Delhi",
-      "rating": 4,
-      "date": "2026-10-09",
-      "title": "Stunning piece, delivery was very fast",
-      "content": "Very satisfied with the build quality. Only giving 4 stars because I wish the water tank was slightly larger than 180ml, but it easily lasts 6 hours which covers my entire work day. The packaging was immaculate with bubble wrap and custom gold box.",
+      "rating": 5,
+      "date": "2026-10-29",
+      "title": "Bought three, no regrets!",
+      "content": "Remote works from across the room, LED is warm not harsh, and the mist genuinely curls off the cigarette like the real thing. Proper quality, arrived in five days via express air courier. Packaging was heavy and secure.",
       "verifiedPurchase": true,
-      "helpfulCount": 8,
+      "helpfulCount": 33,
       "status": "approved"
     }
   ],
@@ -322,23 +271,16 @@
       "minOrderValue": 2000,
       "isActive": true,
       "description": "Flat ₹200 off orders above ₹2,000"
-    },
-    {
-      "code": "GARRISONVIP",
-      "discountPercent": 15,
-      "minOrderValue": 4000,
-      "isActive": true,
-      "description": "15% off orders above ₹4,000 (VIP Syndicate Special)"
     }
   ],
   "newsletter": [
     {
-      "email": "collector@vintagevault.in",
-      "subscribedAt": "2026-11-14T10:52:37.219Z"
+      "email": "qa.test.1794670035479@example.in",
+      "subscribedAt": "2026-11-14T15:27:15.480Z"
     },
     {
-      "email": "qa.test.1794653620273@example.in",
-      "subscribedAt": "2026-11-14T10:53:40.274Z"
+      "email": "qa.test.1794670058805@example.in",
+      "subscribedAt": "2026-11-14T15:27:38.805Z"
     }
   ]
 }
