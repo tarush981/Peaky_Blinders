@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getProducts, updateProduct } from "@/lib/db";
+import { verifyAdminAuth } from "@/lib/auth";
 
 export async function GET() {
   try {
@@ -12,6 +13,13 @@ export async function GET() {
 
 export async function PUT(req: NextRequest) {
   try {
+    if (!verifyAdminAuth(req)) {
+      return NextResponse.json(
+        { error: "Unauthorized access. Administrator authorization required." },
+        { status: 401 }
+      );
+    }
+
     const body = await req.json();
     const { id, ...updates } = body;
 

@@ -4,7 +4,8 @@ import { getDiscount } from "@/lib/db";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { code, cartSubtotal } = body;
+    const code = body.code;
+    const cartSubtotal = Number(body.cartSubtotal ?? body.orderAmount ?? body.subtotal ?? 0);
 
     if (!code) {
       return NextResponse.json({ error: "Promo code required" }, { status: 400 });

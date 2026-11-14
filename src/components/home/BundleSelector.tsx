@@ -178,14 +178,14 @@ export default function BundleSelector({ product }: BundleSelectorProps) {
       <div className="pt-2 border-t border-zinc-800/80 flex flex-wrap items-center justify-center gap-4 text-xs text-zinc-400">
         <div className="flex items-center gap-1.5">
           <ShieldCheck className="w-4 h-4 text-gold-400" />
-          <span>Razorpay Verified</span>
+          <span>100% Verified UPI</span>
         </div>
         <span>•</span>
-        <div>UPI, Cards, Netbanking</div>
+        <div>Direct UPI (GPay, PhonePe, Paytm, QR)</div>
         <span>•</span>
         <div>7 Days Replacement</div>
         <span>•</span>
-        <div>Cash On Delivery Available</div>
+        <div className="text-gold-400/90 font-medium">COD Available on Orders ₹5,000+</div>
       </div>
     </div>
   );

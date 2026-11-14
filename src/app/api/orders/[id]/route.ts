@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getOrderById, updateOrderStatus } from "@/lib/db";
+import { verifyAdminAuth } from "@/lib/auth";
 
 export async function GET(
   req: NextRequest,
@@ -21,6 +22,13 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
+    if (!verifyAdminAuth(req)) {
+      return NextResponse.json(
+        { error: "Unauthorized access. Administrator authorization required." },
+        { status: 401 }
+      );
+    }
+
     const body = await req.json();
     const { orderStatus, paymentStatus, trackingNumber } = body;
 

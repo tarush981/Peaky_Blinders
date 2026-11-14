@@ -171,9 +171,9 @@ export default function Footer() {
               100% Secure Payments Powered By:
             </span>
             <div className="flex items-center gap-2 font-mono text-[11px] text-gold-400/90 bg-vintage-900 border border-gold-500/20 px-3 py-1 rounded">
-              <span>Razorpay</span>
+              <span>Direct UPI (GPay / PhonePe / Paytm / BHIM)</span>
               <span>•</span>
-              <span>UPI / Cards / Netbanking</span>
+              <span>COD on Orders ₹5,000+</span>
             </div>
           </div>
         </div>

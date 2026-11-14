@@ -1,10 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getOrders, createOrder } from "@/lib/db";
 import { generateOrderNumber } from "@/lib/utils";
+import { verifyAdminAuth } from "@/lib/auth";
 import { Order } from "@/types";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    if (!verifyAdminAuth(req)) {
+      return NextResponse.json(
+        { error: "Unauthorized access. Administrator authorization required." },
+        { status: 401 }
+      );
+    }
+
     const orders = await getOrders();
     return NextResponse.json({ success: true, orders });
   } catch (err: any) {

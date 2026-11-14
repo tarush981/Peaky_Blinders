@@ -98,6 +98,16 @@ export default function AdminDashboardPage() {
     }
   };
 
+  const getAdminHeaders = (extra: Record<string, string> = {}) => {
+    const key =
+      (typeof window !== "undefined" && sessionStorage.getItem("pb_admin_auth_key")) ||
+      "pb_boss_admin_2026";
+    return {
+      "x-admin-key": key,
+      ...extra,
+    };
+  };
+
   // Check auth from session storage on mount
   useEffect(() => {
     const auth = sessionStorage.getItem("pb_admin_auth");
@@ -116,6 +126,7 @@ export default function AdminDashboardPage() {
     ) {
       setIsAuthenticated(true);
       sessionStorage.setItem("pb_admin_auth", "true");
+      sessionStorage.setItem("pb_admin_auth_key", passwordInput);
       setAuthError("");
       fetchDashboardData();
     } else {
@@ -126,16 +137,17 @@ export default function AdminDashboardPage() {
   const handleLogout = () => {
     setIsAuthenticated(false);
     sessionStorage.removeItem("pb_admin_auth");
+    sessionStorage.removeItem("pb_admin_auth_key");
   };
 
   const fetchDashboardData = async () => {
     setLoading(true);
     try {
       const [ordersRes, productsRes, reviewsRes, settingsRes] = await Promise.all([
-        fetch("/api/orders"),
+        fetch("/api/orders", { headers: getAdminHeaders() }),
         fetch("/api/products"),
         fetch("/api/reviews?all=true"),
-        fetch("/api/settings"),
+        fetch("/api/settings", { headers: getAdminHeaders() }),
       ]);
 
       const ordersData = await ordersRes.json();
@@ -182,7 +194,7 @@ export default function AdminDashboardPage() {
     try {
       const res = await fetch(`/api/orders/${orderId}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: getAdminHeaders({ "Content-Type": "application/json" }),
         body: JSON.stringify({ orderStatus: newStatus }),
       });
       if (res.ok) {
@@ -203,7 +215,7 @@ export default function AdminDashboardPage() {
     try {
       const res = await fetch("/api/reviews", {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: getAdminHeaders({ "Content-Type": "application/json" }),
         body: JSON.stringify({ id: reviewId, status: newStatus }),
       });
       if (res.ok) {
@@ -224,7 +236,7 @@ export default function AdminDashboardPage() {
     try {
       const res = await fetch("/api/products", {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: getAdminHeaders({ "Content-Type": "application/json" }),
         body: JSON.stringify(editingProduct),
       });
       if (res.ok) {
@@ -243,7 +255,7 @@ export default function AdminDashboardPage() {
     try {
       const res = await fetch("/api/settings", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAdminHeaders({ "Content-Type": "application/json" }),
         body: JSON.stringify(gatewaySettings),
       });
       if (res.ok) {
