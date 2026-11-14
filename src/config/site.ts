@@ -3,7 +3,7 @@ export const siteConfig = {
   shortName: process.env.NEXT_PUBLIC_SHORT_NAME || "MistyBlinders",
   tagline: "Style Lives in the Mist — The Hand-Painted Smoking Boss Statue",
   description: "Official handcrafted 28 cm Tommy Shelby smoking boss statue with misting cigarette, tufted Chesterfield armchair, warm glowing brass base, and wireless remote control.",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://peakyblinders-tommyshelby.vercel.app",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://peakyblinders-store.vercel.app",
   
   // SEO & Search Engine Indexing
   seo: {
