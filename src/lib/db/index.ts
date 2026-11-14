@@ -2,6 +2,15 @@ import fs from "fs";
 import path from "path";
 import { Product, Order, Review, DiscountCode, CustomerShippingAddress, CartItem } from "@/types";
 import { initialProduct, initialReviews, activeDiscounts } from "@/data/mockData";
+import {
+  isSupabaseConfigured,
+  getProductsFromSupabase,
+  updateProductInSupabase,
+  getOrdersFromSupabase,
+  saveOrderToSupabase,
+  updateOrderStatusInSupabase,
+  getReviewsFromSupabase,
+} from "@/lib/supabase";
 
 const DB_FILE_PATH = path.join(process.cwd(), "src", "data", "db.json");
 
@@ -143,16 +152,23 @@ function writeDb(data: DatabaseSchema) {
 
 // ---------------- PRODUCTS ----------------
 export async function getProducts(): Promise<Product[]> {
+  if (isSupabaseConfigured) {
+    const sbProducts = await getProductsFromSupabase();
+    if (sbProducts && sbProducts.length > 0) return sbProducts;
+  }
   const db = readDb();
   return db.products;
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  const db = readDb();
-  return db.products.find((p) => p.slug === slug || p.id === slug) || db.products[0] || null;
+  const products = await getProducts();
+  return products.find((p) => p.slug === slug || p.id === slug) || products[0] || null;
 }
 
 export async function updateProduct(id: string, updates: Partial<Product>): Promise<Product | null> {
+  if (isSupabaseConfigured) {
+    await updateProductInSupabase(id, updates);
+  }
   const db = readDb();
   const index = db.products.findIndex((p) => p.id === id);
   if (index === -1) return null;
@@ -167,6 +183,10 @@ export async function updateProduct(id: string, updates: Partial<Product>): Prom
 
 // ---------------- ORDERS ----------------
 export async function getOrders(): Promise<Order[]> {
+  if (isSupabaseConfigured) {
+    const sbOrders = await getOrdersFromSupabase();
+    if (sbOrders) return sbOrders;
+  }
   const db = readDb();
   return db.orders.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -174,15 +194,19 @@ export async function getOrders(): Promise<Order[]> {
 }
 
 export async function getOrderById(id: string): Promise<Order | null> {
-  const db = readDb();
+  const orders = await getOrders();
   return (
-    db.orders.find(
+    orders.find(
       (o) => o.id === id || o.orderNumber.toLowerCase() === id.toLowerCase()
     ) || null
   );
 }
 
 export async function createOrder(order: Order): Promise<Order> {
+  if (isSupabaseConfigured) {
+    await saveOrderToSupabase(order);
+  }
+
   const db = readDb();
   db.orders.unshift(order);
 
@@ -204,6 +228,10 @@ export async function updateOrderStatus(
   paymentStatus?: Order["paymentStatus"],
   trackingNumber?: string
 ): Promise<Order | null> {
+  if (isSupabaseConfigured) {
+    await updateOrderStatusInSupabase(id, orderStatus, paymentStatus, trackingNumber);
+  }
+
   const db = readDb();
   const order = db.orders.find((o) => o.id === id || o.orderNumber === id);
   if (!order) return null;
@@ -218,6 +246,11 @@ export async function updateOrderStatus(
 
 // ---------------- REVIEWS ----------------
 export async function getReviews(productId?: string): Promise<Review[]> {
+  if (isSupabaseConfigured) {
+    const sbReviews = await getReviewsFromSupabase(productId, false);
+    if (sbReviews) return sbReviews;
+  }
+
   const db = readDb();
   let reviews = db.reviews;
   if (productId) {
@@ -227,6 +260,11 @@ export async function getReviews(productId?: string): Promise<Review[]> {
 }
 
 export async function getAllReviews(): Promise<Review[]> {
+  if (isSupabaseConfigured) {
+    const sbReviews = await getReviewsFromSupabase(undefined, true);
+    if (sbReviews) return sbReviews;
+  }
+
   const db = readDb();
   return db.reviews;
 }

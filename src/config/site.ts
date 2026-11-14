@@ -1,6 +1,6 @@
 export const siteConfig = {
-  name: "PeakyBlinders-Tommyshelby",
-  shortName: "MistyBlinders",
+  name: process.env.NEXT_PUBLIC_BRAND_NAME || "PeakyBlinders-Tommyshelby",
+  shortName: process.env.NEXT_PUBLIC_SHORT_NAME || "MistyBlinders",
   tagline: "Style Lives in the Mist — The Hand-Painted Smoking Boss Statue",
   description: "Official handcrafted 28 cm Tommy Shelby smoking boss statue with misting cigarette, tufted Chesterfield armchair, warm glowing brass base, and wireless remote control.",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://peakyblinders-tommyshelby.vercel.app",
@@ -23,10 +23,10 @@ export const siteConfig = {
   
   // Contact & Business Info
   contact: {
-    supportEmail: "support@peakyblinders-tommyshelby.in",
-    salesEmail: "concierge@peakyblinders-tommyshelby.in",
-    phone: "+91 98765 43210",
-    whatsapp: "+91 98765 43210",
+    supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "support@peakyblinders-tommyshelby.in",
+    salesEmail: process.env.NEXT_PUBLIC_SALES_EMAIL || "concierge@peakyblinders-tommyshelby.in",
+    phone: process.env.NEXT_PUBLIC_SUPPORT_PHONE || "+91 98765 43210",
+    whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_PHONE || "+91 98765 43210",
     supportHours: "Monday to Saturday, 9:00 AM – 7:00 PM IST",
     address: {
       street: "Garrison Chambers, Industrial Area 4",
@@ -39,12 +39,12 @@ export const siteConfig = {
 
   // Logistics & COD Restrictions
   shipping: {
-    freeShippingThreshold: 0, // Free express shipping for all orders
-    standardShippingFee: 0,
-    codMinOrderAmount: 5000, // COD strictly available ONLY for orders ₹5,000 and above!
+    freeShippingThreshold: Number(process.env.NEXT_PUBLIC_FREE_SHIPPING_THRESHOLD ?? 0),
+    standardShippingFee: Number(process.env.NEXT_PUBLIC_STANDARD_SHIPPING_FEE ?? 0),
+    codMinOrderAmount: Number(process.env.NEXT_PUBLIC_COD_MIN_ORDER_AMOUNT ?? 5000), // COD strictly available ONLY for orders ₹5,000 and above!
     estimatedDaysMin: 3,
     estimatedDaysMax: 5,
-    returnWindowDays: 7,
+    returnWindowDays: Number(process.env.NEXT_PUBLIC_RETURN_WINDOW_DAYS ?? 7),
     warrantyMonths: 12,
   },
 
