@@ -35,10 +35,10 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     images: [
       {
-        url: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1200&q=80",
+        url: `${siteConfig.url}/assets/hero-front.jpg`,
         width: 1200,
         height: 630,
-        alt: siteConfig.name,
+        alt: `${siteConfig.name} - Handcrafted Tommy Shelby Diffuser`,
       },
     ],
   },
@@ -46,9 +46,14 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
-    images: [
-      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1200&q=80",
-    ],
+    images: [`${siteConfig.url}/assets/hero-front.jpg`],
+  },
+  verification: {
+    google: siteConfig.seo.googleVerification || undefined,
+    yandex: siteConfig.seo.yandexVerification || undefined,
+    ...(siteConfig.seo.bingVerification
+      ? { other: { "msvalidate.01": siteConfig.seo.bingVerification } }
+      : {}),
   },
   robots: {
     index: true,

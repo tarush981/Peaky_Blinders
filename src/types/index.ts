@@ -4,6 +4,7 @@ export interface Product {
   title: string;
   subtitle: string;
   badge?: string;
+  sku?: string;
   description: string;
   features: string[];
   specs: Record<string, string>;

@@ -30,7 +30,7 @@
       "originalPrice": 4999,
       "sellingPrice": 2499,
       "discountPercentage": 50,
-      "stock": 4,
+      "stock": 3,
       "rating": 5,
       "reviewCount": 6,
       "images": [
@@ -108,6 +108,53 @@
     }
   ],
   "orders": [
+    {
+      "id": "pb_ord_1794670929213",
+      "orderNumber": "PB-MWGKPOGT",
+      "createdAt": "2026-11-14T15:42:09.213Z",
+      "customer": {
+        "fullName": "faa",
+        "email": "31s@vdsv",
+        "phone": "3243442",
+        "addressLine1": "23caaaf",
+        "addressLine2": "",
+        "city": "fadf",
+        "state": "Maharashtra",
+        "postalCode": "42321",
+        "country": "India",
+        "notes": ""
+      },
+      "items": [
+        {
+          "productId": "pb-shelby-diffuser-01",
+          "title": "MistyBlinders™ Tommy Shelby 'Smoking Boss' Statue & Mist Diffuser",
+          "image": "/assets/hero-front.jpg",
+          "unitPrice": 2499,
+          "quantity": 1,
+          "bundleId": "bundle-1",
+          "bundleName": "Buy 1 · Solitary Boss",
+          "freeGifts": [
+            "Wireless Remote Controller",
+            "USB-C Braided Cable",
+            "Water Dropper Pipette"
+          ],
+          "totalPrice": 2499
+        }
+      ],
+      "subtotal": 2499,
+      "discountAmount": 0,
+      "discountCode": null,
+      "shippingCharges": 0,
+      "totalAmount": 2499,
+      "orderStatus": "confirmed",
+      "paymentStatus": "paid",
+      "paymentMethod": "upi",
+      "razorpayOrderId": "order_test_1794670894118_oli5f",
+      "razorpayPaymentId": "UPI_UTR_34343114",
+      "upiUtr": "34343114",
+      "trackingNumber": "PB-EXP-231653IN",
+      "notes": ""
+    },
     {
       "id": "pb_ord_qa_1794670844071",
       "orderNumber": "PB-IND-KOLUU-IW7P",

@@ -3,7 +3,15 @@ export const siteConfig = {
   shortName: "MistyBlinders",
   tagline: "Style Lives in the Mist — The Hand-Painted Smoking Boss Statue",
   description: "Official handcrafted 28 cm Tommy Shelby smoking boss statue with misting cigarette, tufted Chesterfield armchair, warm glowing brass base, and wireless remote control.",
-  url: "https://peakyblinders-tommyshelby.vercel.app",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://peakyblinders-tommyshelby.vercel.app",
+  
+  // SEO & Search Engine Indexing
+  seo: {
+    indexNowKey: "pb70198cd4e37b2d4f89a14c6e95213b",
+    googleVerification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "",
+    bingVerification: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION || "",
+    yandexVerification: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION || "",
+  },
   
   // Market & Currency
   country: "India",
