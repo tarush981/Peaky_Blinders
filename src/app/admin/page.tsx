@@ -597,6 +597,11 @@ export default function AdminDashboardPage() {
                         >
                           {order.paymentStatus}
                         </span>
+                        {order.upiUtr && (
+                          <div className="mt-1 text-[11px] font-mono text-gold-400/90 select-all">
+                            UTR: <strong>{order.upiUtr}</strong>
+                          </div>
+                        )}
                       </td>
 
                       <td className="py-4">

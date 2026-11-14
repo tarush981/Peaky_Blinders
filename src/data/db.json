@@ -30,7 +30,7 @@
       "originalPrice": 4999,
       "sellingPrice": 2499,
       "discountPercentage": 50,
-      "stock": 8,
+      "stock": 6,
       "rating": 5,
       "reviewCount": 5,
       "images": [
@@ -108,6 +108,52 @@
     }
   ],
   "orders": [
+    {
+      "id": "pb_ord_1794670147733",
+      "orderNumber": "PB-MWGK8ZQC",
+      "createdAt": "2026-11-14T15:29:07.733Z",
+      "customer": {
+        "fullName": "dac",
+        "email": "cad@vsdfv.com",
+        "phone": "2342342",
+        "addressLine1": "q3fdcc",
+        "addressLine2": "",
+        "city": "vae",
+        "state": "Maharashtra",
+        "postalCode": "v",
+        "country": "India",
+        "notes": ""
+      },
+      "items": [
+        {
+          "productId": "pb-shelby-diffuser-01",
+          "title": "MistyBlinders™ Tommy Shelby 'Smoking Boss' Statue & Mist Diffuser",
+          "image": "/assets/hero-front.jpg",
+          "unitPrice": 2249,
+          "quantity": 2,
+          "bundleId": "bundle-2",
+          "bundleName": "Buy 2 · Duo Syndicate Pack",
+          "freeGifts": [
+            "2x Wireless Remote Controllers",
+            "1x FREE 10ml 'Birmingham Tobacco & Oak' Aroma Oil",
+            "Free Priority Air Express Delivery"
+          ],
+          "totalPrice": 4499
+        }
+      ],
+      "subtotal": 4499,
+      "discountAmount": 0,
+      "discountCode": null,
+      "shippingCharges": 0,
+      "totalAmount": 4499,
+      "orderStatus": "confirmed",
+      "paymentStatus": "paid",
+      "paymentMethod": "upi",
+      "razorpayOrderId": "order_test_1794670115561_ue3gl",
+      "razorpayPaymentId": "UPI_UTR_34221",
+      "trackingNumber": "PB-EXP-888169IN",
+      "notes": ""
+    },
     {
       "id": "pb_ord_qa_1794670058787",
       "orderNumber": "PB-IND-K7RXE-0OWM",

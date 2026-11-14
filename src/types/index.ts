@@ -61,7 +61,7 @@ export interface CustomerShippingAddress {
 
 export type OrderStatus = 'pending' | 'processing' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
 export type PaymentStatus = 'pending' | 'paid' | 'failed' | 'refunded';
-export type PaymentMethod = 'razorpay' | 'cod' | 'test_mode';
+export type PaymentMethod = 'razorpay' | 'upi' | 'cod' | 'test_mode';
 
 export interface Order {
   id: string;
@@ -79,6 +79,7 @@ export interface Order {
   paymentMethod: PaymentMethod;
   razorpayOrderId?: string;
   razorpayPaymentId?: string;
+  upiUtr?: string;
   trackingNumber?: string;
   notes?: string;
 }

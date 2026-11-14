@@ -60,9 +60,10 @@ export async function POST(req: NextRequest) {
       totalAmount: orderDetails.totalAmount,
       orderStatus: "confirmed",
       paymentStatus: "paid",
-      paymentMethod: orderDetails.paymentMethod || "razorpay",
+      paymentMethod: orderDetails.paymentMethod || "upi",
       razorpayOrderId: razorpay_order_id,
       razorpayPaymentId: razorpay_payment_id,
+      upiUtr: orderDetails.upiUtr || (razorpay_payment_id.startsWith("UPI_UTR_") ? razorpay_payment_id.replace("UPI_UTR_", "") : undefined),
       trackingNumber: `PB-EXP-${Math.floor(100000 + Math.random() * 900000)}IN`,
       notes: orderDetails.notes || "",
     };
