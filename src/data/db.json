@@ -30,9 +30,9 @@
       "originalPrice": 4999,
       "sellingPrice": 2499,
       "discountPercentage": 50,
-      "stock": 6,
+      "stock": 4,
       "rating": 5,
-      "reviewCount": 5,
+      "reviewCount": 6,
       "images": [
         "/assets/hero-front.jpg",
         "/assets/hero-back.jpg",
@@ -108,6 +108,45 @@
     }
   ],
   "orders": [
+    {
+      "id": "pb_ord_qa_1794670844071",
+      "orderNumber": "PB-IND-KOLUU-IW7P",
+      "createdAt": "2026-11-14T15:40:44.073Z",
+      "customer": {
+        "fullName": "Test QA Buyer",
+        "email": "qa.buyer@test.in",
+        "phone": "9876543210",
+        "addressLine1": "123 Test Street, Whitefield",
+        "city": "Bengaluru",
+        "state": "Karnataka",
+        "postalCode": "560066",
+        "country": "India"
+      },
+      "items": [
+        {
+          "productId": "pb-shelby-diffuser-01",
+          "title": "Tommy Shelby Smoking Boss Diffuser",
+          "image": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c",
+          "unitPrice": 2249,
+          "quantity": 2,
+          "bundleId": "bundle-2",
+          "bundleName": "The Shelby Syndicate Duo",
+          "totalPrice": 4499
+        }
+      ],
+      "subtotal": 4499,
+      "discountAmount": 450,
+      "discountCode": "PEAKY10",
+      "shippingCharges": 0,
+      "totalAmount": 4049,
+      "orderStatus": "confirmed",
+      "paymentStatus": "paid",
+      "paymentMethod": "razorpay",
+      "razorpayOrderId": "order_test_1794670844070_p13wh",
+      "razorpayPaymentId": "pay_test_suite_9999",
+      "trackingNumber": "PB-EXP-949677IN",
+      "notes": ""
+    },
     {
       "id": "pb_ord_1794670147733",
       "orderNumber": "PB-MWGK8ZQC",
@@ -235,6 +274,19 @@
   ],
   "reviews": [
     {
+      "id": "rev-1794670844105",
+      "productId": "pb-shelby-diffuser-01",
+      "author": "Dev QA Reviewer",
+      "location": "Pune, MH",
+      "rating": 5,
+      "date": "2026-11-14",
+      "title": "Spectacular Amber Glow",
+      "content": "Automated QA test review content. The sculpture weight is solid.",
+      "verifiedPurchase": true,
+      "helpfulCount": 0,
+      "status": "approved"
+    },
+    {
       "id": "rev-1794670058803",
       "productId": "pb-shelby-diffuser-01",
       "author": "Dev QA Reviewer",
@@ -327,6 +379,16 @@
     {
       "email": "qa.test.1794670058805@example.in",
       "subscribedAt": "2026-11-14T15:27:38.805Z"
+    },
+    {
+      "email": "qa.test.1794670844108@example.in",
+      "subscribedAt": "2026-11-14T15:40:44.109Z"
     }
-  ]
+  ],
+  "settings": {
+    "merchantUpiVpa": "peakyy@slc",
+    "merchantName": "PeakyBlinders",
+    "bankAccountHolder": "PeakyBlinders",
+    "isLiveMode": true
+  }
 }

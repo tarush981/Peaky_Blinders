@@ -47,19 +47,22 @@ export default function PaymentModal({
   const [selectedApp, setSelectedApp] = useState<"gpay" | "phonepe" | "paytm" | "any">("any");
   const [timerSeconds, setTimerSeconds] = useState(600); // 10 minutes session
 
-  // Merchant VPA & Name from config or fallback
-  const merchantVpa = siteConfig.payments.upiVpa || "shelby.garrison@okhdfcbank";
-  const merchantName = siteConfig.payments.merchantName || "PeakyBlinders Store";
+  // Merchant VPA & Name from config or user uploaded
+  const merchantVpa = siteConfig.payments.upiVpa || "peakyy@slc";
+  const merchantName = siteConfig.payments.merchantName || "PeakyBlinders";
+  const merchantQrImage = siteConfig.payments.upiQrImage || "/img/merchant-upi-qr.jpg";
 
   // Standard NPCI UPI URI
   const upiUri = `upi://pay?pa=${encodeURIComponent(merchantVpa)}&pn=${encodeURIComponent(
     merchantName
   )}&am=${totalAmount}&cu=INR&tn=${encodeURIComponent(`Order_${orderNumber}`)}`;
 
-  // Scannable Dynamic QR URL (generated using safe public QR API with exact amount)
-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=10&data=${encodeURIComponent(
+  // Scannable Dynamic QR URL fallback
+  const dynamicQrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=10&data=${encodeURIComponent(
     upiUri
   )}`;
+
+  const [useUploadedQr, setUseUploadedQr] = useState(true);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -176,24 +179,49 @@ export default function PaymentModal({
               </a>
             </div>
 
-            {/* Method 2: Scan Dynamic QR Code */}
+            {/* Method 2: Scan Official UPI QR Code */}
             <div className="pt-2 border-t border-zinc-800">
-              <div className="text-xs font-semibold text-zinc-300 mb-3 flex items-center justify-between">
-                <span>Method 2: Scan Dynamic UPI QR Code</span>
-                <span className="text-[10px] text-emerald-400 font-mono">Real-Time Amount Loaded</span>
+              <div className="text-xs font-semibold text-zinc-300 mb-2 flex items-center justify-between">
+                <span>Scan Official Merchant UPI QR Code</span>
+                <span className="text-[10px] text-emerald-400 font-mono font-bold">UPI ID: {merchantVpa}</span>
               </div>
 
-              <div className="bg-white rounded-xl p-4 w-48 h-48 mx-auto flex items-center justify-center shadow-lg relative">
+              <div className="bg-white rounded-2xl p-3 w-56 h-56 mx-auto flex items-center justify-center shadow-2xl relative border-2 border-gold-500/40">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={qrCodeUrl}
-                  alt="Scan to pay via any UPI app"
-                  className="w-full h-full object-contain"
+                  src={useUploadedQr ? merchantQrImage : dynamicQrCodeUrl}
+                  alt="Scan to pay via Google Pay, PhonePe, Paytm, or BHIM"
+                  className="w-full h-full object-contain rounded-xl"
                 />
               </div>
 
-              <p className="text-[11px] text-zinc-400 text-center mt-2.5">
-                Scan with any Indian UPI app: <strong>GPay, PhonePe, Paytm, Cred, or BHIM</strong>
+              <div className="flex justify-center gap-2 mt-2">
+                <button
+                  type="button"
+                  onClick={() => setUseUploadedQr(true)}
+                  className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                    useUploadedQr
+                      ? "bg-gold-500 text-vintage-950"
+                      : "bg-vintage-950 text-zinc-400 border border-zinc-800"
+                  }`}
+                >
+                  Merchant QR Code
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setUseUploadedQr(false)}
+                  className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                    !useUploadedQr
+                      ? "bg-gold-500 text-vintage-950"
+                      : "bg-vintage-950 text-zinc-400 border border-zinc-800"
+                  }`}
+                >
+                  Amount QR ({formatINR(totalAmount)})
+                </button>
+              </div>
+
+              <p className="text-[11px] text-zinc-400 text-center mt-2">
+                Open <strong>GPay, PhonePe, Paytm, or any banking app</strong> and scan this code to pay.
               </p>
             </div>
 

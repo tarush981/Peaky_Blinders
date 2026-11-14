@@ -46,8 +46,9 @@ export const siteConfig = {
     allowedOnlineMethods: ["upi"],
     
     // Direct Bank / Merchant UPI configuration (Money lands directly into your bank account)
-    upiVpa: process.env.NEXT_PUBLIC_MERCHANT_UPI_VPA || "shelby.garrison@okhdfcbank",
-    merchantName: process.env.NEXT_PUBLIC_MERCHANT_NAME || "PeakyBlinders Tommy Shelby",
+    upiVpa: process.env.NEXT_PUBLIC_MERCHANT_UPI_VPA || "peakyy@slc",
+    merchantName: process.env.NEXT_PUBLIC_MERCHANT_NAME || "PeakyBlinders",
+    upiQrImage: "/img/merchant-upi-qr.jpg",
     
     // Razorpay Live / Test Credentials
     razorpayKeyId: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "",

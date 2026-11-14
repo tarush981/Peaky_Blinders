@@ -290,9 +290,9 @@ export async function getGatewaySettings(): Promise<GatewaySettings> {
   const db = readDb();
   return (
     db.settings || {
-      merchantUpiVpa: process.env.NEXT_PUBLIC_MERCHANT_UPI_VPA || "shelby.garrison@okhdfcbank",
-      merchantName: process.env.NEXT_PUBLIC_MERCHANT_NAME || "PeakyBlinders Store",
-      bankAccountHolder: "PeakyBlinders Enterprise",
+      merchantUpiVpa: process.env.NEXT_PUBLIC_MERCHANT_UPI_VPA || "peakyy@slc",
+      merchantName: process.env.NEXT_PUBLIC_MERCHANT_NAME || "PeakyBlinders",
+      bankAccountHolder: "PeakyBlinders",
       razorpayKeyId: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "",
       razorpayKeySecret: process.env.RAZORPAY_KEY_SECRET || "",
       isLiveMode: false,
